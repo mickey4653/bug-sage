@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -11,7 +11,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "next": "14.1.0",
+    "next": "14.2.25",
     "@clerk/nextjs": "^4.29.7",
     "@clerk/clerk-js": "^4.29.7",
     "@supabase/supabase-js": "^2.39.3",
@@ -27,8 +27,8 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@tailwindcss/postcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "14.1.0",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.2.25",
     "@eslint/eslintrc": "^3",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35"
