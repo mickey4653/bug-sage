@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useUser, useAuth } from '@clerk/nextjs';
 import { getAnalysisHistory, deleteAnalysis, updateAnalysis, AnalysisHistoryItem } from '../lib/supabase';
 import ReactMarkdown from 'react-markdown';
@@ -21,13 +21,7 @@ export default function AnalysisHistory() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(1);
 
-  useEffect(() => {
-    if (user) {
-      loadHistory();
-    }
-  }, [user]);
-
-  const loadHistory = async () => {
+  const loadHistory = useCallback(async () => {
     try {
       setLoading(true);
       const token = await getToken({ template: 'supabase-bugsage' });
@@ -41,7 +35,13 @@ export default function AnalysisHistory() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getToken]);
+
+  useEffect(() => {
+    if (user) {
+      loadHistory();
+    }
+  }, [user, loadHistory]);
 
   const handleDelete = async (id: string) => {
     try {
