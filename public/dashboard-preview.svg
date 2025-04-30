@@ -1,0 +1,31 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="500" rx="8" fill="#FFFBEB" />
+  
+  <!-- Header -->
+  <rect x="20" y="20" width="760" height="60" rx="8" fill="white" />
+  <rect x="40" y="35" width="180" height="30" rx="4" fill="#FBE9BA" />
+  <circle cx="740" cy="50" r="20" fill="#F59E0B" />
+  
+  <!-- Log Input Section -->
+  <rect x="20" y="100" width="760" height="160" rx="8" fill="white" />
+  <rect x="40" y="120" width="120" height="20" rx="4" fill="#FBE9BA" />
+  <rect x="40" y="150" width="720" height="90" rx="4" fill="#FAFAFA" stroke="#F59E0B" stroke-opacity="0.2" />
+  
+  <!-- Button -->
+  <rect x="640" y="250" width="120" height="36" rx="18" fill="#F59E0B" />
+  <rect x="670" y="265" width="60" height="6" rx="3" fill="white" />
+  
+  <!-- Analysis Results Section -->
+  <rect x="20" y="300" width="760" height="180" rx="8" fill="white" />
+  <rect x="40" y="320" width="150" height="20" rx="4" fill="#FBE9BA" />
+  
+  <!-- Markdown-style content -->
+  <rect x="40" y="350" width="720" height="110" rx="4" fill="#FFFBEB" />
+  <rect x="60" y="370" width="160" height="8" rx="4" fill="#F59E0B" />
+  <rect x="60" y="390" width="680" height="4" rx="2" fill="#F59E0B" opacity="0.6" />
+  <rect x="60" y="400" width="650" height="4" rx="2" fill="#F59E0B" opacity="0.6" />
+  <rect x="60" y="410" width="670" height="4" rx="2" fill="#F59E0B" opacity="0.6" />
+  <rect x="60" y="430" width="160" height="8" rx="4" fill="#F59E0B" />
+  <rect x="60" y="450" width="600" height="4" rx="2" fill="#F59E0B" opacity="0.6" />
+</svg> 
