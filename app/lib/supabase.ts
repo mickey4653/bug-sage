@@ -19,14 +19,7 @@ export const createSupabaseClient = async (token?: string) => {
     throw new Error('Authentication token is required');
   }
 
-  // If we already have a client with the same token, return it
-  if (supabaseClient) {
-    return supabaseClient;
-  }
-
-  // Log the token for debugging (remove in production)
-  console.log('Creating new Supabase client with token');
-
+  // Always create a new client with the latest token
   supabaseClient = createClient(
     supabaseUrl,
     supabaseAnonKey,
@@ -80,34 +73,17 @@ export interface AnalysisHistoryItem {
 }
 
 // Client-side function
-export async function getAnalysisHistory(token: string): Promise<AnalysisHistoryItem[]> {
-  try {
-    console.log('Creating Supabase client...');
-    const supabase = await createSupabaseClient(token);
-    
-    console.log('Fetching analysis history...');
-    const { data, error } = await supabase
-      .from('analysis_history')
-      .select('*')
-      .order('created_at', { ascending: false });
+export const getAnalysisHistory = async (token: string): Promise<AnalysisHistoryItem[]> => {
+  const supabase = await createSupabaseClient(token);
+  const { data, error } = await supabase
+    .from('analysis_history')
+    .select('id, user_id, logs, context, analysis, created_at')
+    .returns<AnalysisHistoryItem[]>()
+    .order('created_at', { ascending: false });
 
-    if (error) {
-      console.error('Supabase error details:', {
-        code: error.code,
-        message: error.message,
-        details: error.details,
-        hint: error.hint
-      });
-      throw error;
-    }
-
-    console.log('Successfully fetched analysis history:', data?.length || 0, 'items');
-    return (data || []) as unknown as AnalysisHistoryItem[];
-  } catch (error) {
-    console.error('Error in getAnalysisHistory:', error);
-    throw error;
-  }
-}
+  if (error) throw error;
+  return data;
+};
 
 // Client-side function
 export async function saveAnalysis(
