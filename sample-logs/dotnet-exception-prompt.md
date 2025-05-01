@@ -11,7 +11,7 @@
 ## Raw Logs
 ```
 System.NullReferenceException: Object reference not set to an instance of an object.
-   at MyApp.Controllers.UserController.GetUserProfile(Int32 userId) in C:\Projects\MyApp\Controllers\UserController.cs:line 54
+   at MyApp.Controllers.ProductController.GetById(Int32 id) in C:\Projects\MyApp\Controllers\ProductController.cs:line 56
    at lambda_method(Closure , Object , Object[] )
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper)
 ```

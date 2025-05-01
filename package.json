@@ -11,6 +11,7 @@
     "test": "npm run test:isolated",
     "test:jest": "jest --config jest.config.cjs",
     "test:isolated": "bash run-isolated-tests.sh",
+    "test:isolated:win": "bash run-isolated-tests.sh",
     "test:watch": "jest --config jest.config.cjs --watch",
     "test:coverage": "jest --config jest.config.cjs --coverage",
     "test:e2e": "cypress run",

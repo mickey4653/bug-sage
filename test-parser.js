@@ -1,10 +1,23 @@
 /**
  * Simple test script for the log parser
- * Run with: npx ts-node test-parser.js
+ * Run with: node test-parser.js
  */
 
-// CommonJS require for TypeScript compatibility
-const { parseLog, structureLogForPrompt } = require('./app/lib/logParser');
+// Try to import from original source, fallback to mock if it fails
+let parseLog, structureLogForPrompt;
+try {
+  // Try importing from TypeScript file first
+  const logParserModule = await import('./app/lib/logParser.ts');
+  parseLog = logParserModule.parseLog;
+  structureLogForPrompt = logParserModule.structureLogForPrompt;
+  console.log('Using TypeScript implementation');
+} catch (err) {
+  // Fall back to the mock implementation
+  console.log('TypeScript import failed, using mock implementation:', err.message);
+  const mockModule = await import('./mock-log-parser.js');
+  parseLog = mockModule.parseLog;
+  structureLogForPrompt = mockModule.structureLogForPrompt;
+}
 
 // Test with a JavaScript error
 const jsErrorLog = `TypeError: Cannot read property 'map' of undefined

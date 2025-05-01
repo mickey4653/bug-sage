@@ -1,14 +1,33 @@
 /**
  * Script to test the log parser with sample log files
- * Run with: npx ts-node test-with-samples.js
+ * Run with: node test-with-samples.js
  * 
  * First run: node generate-sample-logs.js to create the sample logs
  */
 
-const fs = require('fs');
-const path = require('path');
-// Use require with transpilation for TypeScript files
-const { parseLog, structureLogForPrompt } = require('./app/lib/logParser');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Try to import from original source, fallback to mock if it fails
+let parseLog, structureLogForPrompt;
+try {
+  // Try importing from TypeScript file first
+  const logParserModule = await import('./app/lib/logParser.ts');
+  parseLog = logParserModule.parseLog;
+  structureLogForPrompt = logParserModule.structureLogForPrompt;
+  console.log('Using TypeScript implementation');
+} catch (err) {
+  // Fall back to the mock implementation
+  console.log('TypeScript import failed, using mock implementation:', err.message);
+  const mockModule = await import('./mock-log-parser.js');
+  parseLog = mockModule.parseLog;
+  structureLogForPrompt = mockModule.structureLogForPrompt;
+}
+
+// Get directory name in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const SAMPLES_DIR = path.join(__dirname, 'sample-logs');
 

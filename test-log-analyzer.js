@@ -25,7 +25,7 @@ function simulateLogAnalysis(logs, context) {
     // Extract the first line as a summary
     const firstLine = logs.split('\n')[0].trim();
     
-    // Detect if this is an error log
+    // Check if this is an error log and include in analysis
     const isError = /error|exception|failed|TypeError|ReferenceError/i.test(logs);
     
     // Create a simulated response similar to what the API would return
@@ -40,6 +40,7 @@ This is a simulated analysis of the logs. In a real scenario, this would contain
 ${context.frontend ? `\nFrontend context: ${context.frontend}` : ''}
 ${context.backend ? `\nBackend context: ${context.backend}` : ''}
 ${context.platform ? `\nPlatform context: ${context.platform}` : ''}
+${isError ? '\nThis appears to be an error log.' : '\nThis does not appear to contain error information.'}
 
 ## 🛠️ Solution
 This is a simulated solution. In a real scenario, this would contain the AI's suggested fix.

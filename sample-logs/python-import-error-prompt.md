@@ -1,13 +1,13 @@
 ## Error Details
 - Type: Error
-- Message: No module named 'tensorflow.python.tools'
+- Message: No module named 'numpy'
 
 ## Raw Logs
 ```
 Traceback (most recent call last):
-  File "/app/main.py", line 5, in <module>
-    import tensorflow as tf
-  File "/usr/local/lib/python3.9/site-packages/tensorflow/__init__.py", line 41, in <module>
-    from tensorflow.python.tools import module_util as _module_util
-ModuleNotFoundError: No module named 'tensorflow.python.tools'
+  File "app.py", line 5, in <module>
+    from utils.helpers import format_data
+  File "/app/utils/helpers.py", line 3, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
 ```

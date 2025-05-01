@@ -14,6 +14,12 @@ echo -e "${BLUE}Running BugSage Isolated Component Tests${NC}"
 echo -e "${BLUE}=========================================================${NC}"
 echo ""
 
+# Set NODE_OPTIONS if not already set
+if [ -z "$NODE_OPTIONS" ]; then
+  echo -e "${YELLOW}Setting NODE_OPTIONS for isolated tests${NC}"
+  export NODE_OPTIONS="--experimental-vm-modules"
+fi
+
 # Check if we're running in CI environment
 IS_CI=false
 if [ -n "$CI" ]; then
