@@ -57,8 +57,8 @@ for test_file in "${TEST_FILES[@]}"; do
     continue
   fi
   
-  # Run the test
-  node $test_file
+  # Run the test with ES module support
+  node --experimental-vm-modules $test_file
   
   # Check if the test was successful
   if [ $? -eq 0 ]; then
