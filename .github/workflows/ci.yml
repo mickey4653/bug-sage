@@ -26,7 +26,7 @@ jobs:
       run: npm run lint
     
     - name: Generate sample logs for tests
-      run: node generate-sample-logs.js
+      run: node --experimental-vm-modules generate-sample-logs.js
     
     - name: Run isolated tests
       run: npm run test:isolated
