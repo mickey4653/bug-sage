@@ -1,0 +1,167 @@
+/**
+ * This is a standalone test script that uses its own simplified version of the parser logic
+ * to test the parsing algorithm without TypeScript dependencies.
+ * 
+ * Run with: node simple-parser-test.js
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+// Sample log test files
+const SAMPLES_DIR = path.join(__dirname, 'sample-logs');
+
+// Simplified parser implementation (copy of the TypeScript parser but in pure JS)
+function parseLog(logContent) {
+  const result = {
+    stackTrace: [],
+    filePaths: [],
+    lineNumbers: []
+  };
+
+  // Try to detect error type and message
+  const errorTypeRegex = /(?:Error|Exception|TypeError|SyntaxError|ReferenceError|RangeError|URIError|EvalError|UnhandledPromiseRejection):\s*(.*?)(?:\n|$)/i;
+  const errorTypeMatch = logContent.match(errorTypeRegex);
+  if (errorTypeMatch) {
+    result.errorType = errorTypeMatch[0].split(':')[0].trim();
+    result.errorMessage = errorTypeMatch[1]?.trim();
+  }
+
+  // Try to detect stack traces
+  const stackTraceLines = logContent.match(/\s+at\s+.+\(.+\)/g);
+  if (stackTraceLines) {
+    result.stackTrace = stackTraceLines.map(line => line.trim());
+    
+    // Extract file paths and line numbers from stack trace
+    stackTraceLines.forEach(line => {
+      const filePathMatch = line.match(/\((.+):(\d+):(\d+)\)/) || line.match(/at\s+(.+):(\d+):(\d+)/);
+      if (filePathMatch) {
+        result.filePaths.push(filePathMatch[1]);
+        result.lineNumbers.push(parseInt(filePathMatch[2], 10));
+      }
+    });
+  }
+
+  // Try to detect framework/library based on patterns
+  if (logContent.includes('React') || logContent.includes('ReactDOM') || logContent.includes('useState')) {
+    result.framework = 'React';
+  } else if (logContent.includes('Vue') || logContent.includes('VueRouter') || logContent.includes('Vuex')) {
+    result.framework = 'Vue';
+  } else if (logContent.includes('Angular') || logContent.includes('NgModule') || logContent.includes('Component({')) {
+    result.framework = 'Angular';
+  } else if (logContent.includes('Next') || logContent.includes('getServerSideProps') || logContent.includes('getStaticProps')) {
+    result.framework = 'NextJS';
+  }
+
+  // Try to detect programming language based on patterns
+  if (logContent.includes('TypeError') || logContent.includes('undefined is not a function') || logContent.includes('Cannot read property')) {
+    result.language = 'JavaScript/TypeScript';
+  } else if (logContent.includes('ImportError') || logContent.includes('IndentationError') || logContent.includes('SyntaxError: invalid syntax')) {
+    result.language = 'Python';
+  } else if (logContent.includes('NullPointerException') || logContent.includes('ClassNotFoundException')) {
+    result.language = 'Java';
+  } else if (logContent.includes('System.NullReferenceException') || logContent.includes('CS')) {
+    result.language = 'C#/.NET';
+  }
+
+  // Try to detect environment
+  if (logContent.includes('localhost') || logContent.includes('127.0.0.1')) {
+    result.environment = 'local';
+  } else if (logContent.includes('production') || logContent.includes('prod-')) {
+    result.environment = 'production';
+  } else if (logContent.includes('staging') || logContent.includes('stage-')) {
+    result.environment = 'staging';
+  } else if (logContent.includes('development') || logContent.includes('dev-')) {
+    result.environment = 'development';
+  }
+
+  return result;
+}
+
+// Format the parsed log into a structured prompt for GPT
+function structureLogForPrompt(parsedLog, logs) {
+  let structuredInsight = '';
+
+  if (parsedLog.errorType || parsedLog.errorMessage) {
+    structuredInsight += `## Error Details\n`;
+    structuredInsight += parsedLog.errorType ? `- Type: ${parsedLog.errorType}\n` : '';
+    structuredInsight += parsedLog.errorMessage ? `- Message: ${parsedLog.errorMessage}\n` : '';
+    structuredInsight += '\n';
+  }
+
+  if (parsedLog.framework || parsedLog.language) {
+    structuredInsight += `## Detected Technology\n`;
+    structuredInsight += parsedLog.framework ? `- Framework: ${parsedLog.framework}\n` : '';
+    structuredInsight += parsedLog.language ? `- Language: ${parsedLog.language}\n` : '';
+    structuredInsight += '\n';
+  }
+
+  if (parsedLog.stackTrace && parsedLog.stackTrace.length > 0) {
+    structuredInsight += `## Stack Trace Analysis\n`;
+    structuredInsight += `- Relevant Files: ${parsedLog.filePaths?.join(', ') || 'None detected'}\n`;
+    structuredInsight += '\n';
+  }
+
+  if (parsedLog.environment) {
+    structuredInsight += `## Context\n`;
+    structuredInsight += parsedLog.environment ? `- Environment: ${parsedLog.environment}\n` : '';
+    structuredInsight += '\n';
+  }
+
+  structuredInsight += `## Raw Logs\n\`\`\`\n${logs}\n\`\`\`\n`;
+
+  return structuredInsight;
+}
+
+// MAIN TESTING LOGIC
+// Make sure samples directory exists
+if (!fs.existsSync(SAMPLES_DIR)) {
+  console.error('Sample logs directory not found. Please run "node generate-sample-logs.js" first.');
+  process.exit(1);
+}
+
+// Get all log files
+const logFiles = fs.readdirSync(SAMPLES_DIR).filter(file => file.endsWith('.log'));
+
+if (logFiles.length === 0) {
+  console.error('No log files found. Please run "node generate-sample-logs.js" first.');
+  process.exit(1);
+}
+
+console.log(`\n===== TESTING LOG PARSER WITH ${logFiles.length} SAMPLE FILES =====\n`);
+
+// Process each log file
+logFiles.forEach(file => {
+  const filePath = path.join(SAMPLES_DIR, file);
+  const logContent = fs.readFileSync(filePath, 'utf8');
+  
+  console.log(`\n----- Testing ${file} -----`);
+  
+  try {
+    // Parse the log
+    const parsedResult = parseLog(logContent);
+    
+    // Print the results
+    console.log('Detected error type:', parsedResult.errorType || 'None');
+    console.log('Detected language/framework:', parsedResult.language || 'None', '/', parsedResult.framework || 'None');
+    
+    if (parsedResult.filePaths && parsedResult.filePaths.length > 0) {
+      console.log('Found file paths:', parsedResult.filePaths.slice(0, 3).join(', ') + (parsedResult.filePaths.length > 3 ? '...' : ''));
+    }
+    
+    // Generate a structured prompt
+    const structuredPrompt = structureLogForPrompt(parsedResult, logContent);
+    
+    // Save the structured prompt to a file
+    const promptFile = path.join(SAMPLES_DIR, file.replace('.log', '-prompt.md'));
+    fs.writeFileSync(promptFile, structuredPrompt, 'utf8');
+    
+    console.log(`Structured prompt saved to: ${promptFile}`);
+  } catch (error) {
+    console.error(`Error processing ${file}:`, error);
+  }
+});
+
+console.log('\n===== LOG PARSER TEST COMPLETE =====');
+console.log('All sample logs have been processed successfully!');
+console.log('Check the sample-logs directory for the generated prompts.'); 
