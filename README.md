@@ -59,7 +59,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Testing Strategy
 
-BugSage uses a dual testing approach:
+BugSage primarily uses lightweight, isolated component tests:
 
 ### Isolated Component Tests
 
@@ -85,24 +85,25 @@ Key isolated tests include:
 - Page component (test-page-component.js)
 - End-to-end flow (test-e2e-flow.js)
 
-### Traditional Unit & E2E Tests
+### Optional: Traditional Unit & E2E Tests
 
-We also maintain traditional Jest unit tests and Cypress E2E tests for specific scenarios:
+We maintain Jest and Cypress as optional dependencies for specific testing scenarios:
 
 ```bash
-# Run Jest unit tests
-npm test
+# Install optional testing dependencies
+npm install --save-optional @testing-library/jest-dom @testing-library/react jest jest-environment-jsdom cypress
 
-# Run Cypress E2E tests
+# Run Jest unit tests (if installed)
+npm run test:jest
+
+# Run Cypress E2E tests (if installed)
 npm run test:e2e
 ```
 
 ### CI/CD Pipeline
 
-Our GitHub Actions workflow automatically runs all tests on push and pull requests. The workflow:
+Our GitHub Actions workflow automatically runs linting and isolated tests on push and pull requests. The workflow:
 1. Runs linting checks
 2. Generates sample log data
 3. Runs isolated component tests
-4. Runs Jest unit tests
-5. Runs Cypress E2E tests
-6. Deploys to Vercel on successful tests (main branch only)
+4. Deploys to Vercel on successful tests (main branch only)

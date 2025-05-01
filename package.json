@@ -2,12 +2,14 @@
   "name": "bugsage",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "npm run test:isolated && jest --config jest.config.cjs",
+    "test": "npm run test:isolated",
+    "test:jest": "jest --config jest.config.cjs",
     "test:isolated": "bash run-isolated-tests.sh",
     "test:watch": "jest --config jest.config.cjs --watch",
     "test:coverage": "jest --config jest.config.cjs --coverage",
@@ -35,6 +37,13 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^15.3.1",
+    "postcss": "^8.4.35",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  },
+  "optionalDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@types/jest": "^29.5.12",
@@ -43,12 +52,7 @@
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.17",
     "cypress": "^13.6.4",
-    "eslint": "^8.56.0",
-    "eslint-config-next": "^15.3.1",
     "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "postcss": "^8.4.35",
-    "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "jest-environment-jsdom": "^29.7.0"
   }
 }

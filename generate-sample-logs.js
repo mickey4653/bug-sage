@@ -4,8 +4,13 @@
  * Run with: node generate-sample-logs.js
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get directory name in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Define the output directory
 const OUTPUT_DIR = path.join(__dirname, 'sample-logs');
