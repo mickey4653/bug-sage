@@ -25,8 +25,21 @@ jobs:
     - name: Run linting
       run: npm run lint
     
-    - name: Run tests
-      run: npm test
+    - name: Generate sample logs for tests
+      run: node generate-sample-logs.js
+    
+    - name: Run isolated tests
+      run: npm run test:isolated
+    
+    - name: Run unit tests
+      run: jest --config jest.config.cjs
+      env:
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+        CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+        NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     
     - name: Run E2E tests
       run: npm run test:e2e
