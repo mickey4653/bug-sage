@@ -1,3 +1,9 @@
+/**
+ * BugSage - Your AI Debugging Mentor
+ * Copyright (c) 2025 Michael Ilerioluwa Adeniyi
+ * MIT License - See LICENSE file for details
+ */
+
 import { ClerkProvider } from '@clerk/nextjs';
 import './globals.css';
 import type { Metadata } from 'next';

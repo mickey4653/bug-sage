@@ -1,0 +1,8 @@
+/**
+ * BugSage - Your AI Debugging Mentor
+ * Copyright (c) 2025 Michael Ilerioluwa Adeniyi
+ * MIT License - See LICENSE file for details
+ * 
+ * Filename: [FILENAME]
+ * Description: [BRIEF DESCRIPTION]
+ */ 

@@ -1,3 +1,9 @@
+/**
+ * BugSage - Your AI Debugging Mentor
+ * Copyright (c) 2025 Michael Ilerioluwa Adeniyi
+ * MIT License - See LICENSE file for details
+ */
+
 'use client';
 
 import { SignIn, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
