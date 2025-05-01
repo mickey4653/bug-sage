@@ -1,8 +1,3 @@
-// ES module equivalents for __dirname and __filename
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-import { fileURLToPath } from 'url';
 /**
  * This is a standalone test script that uses its own simplified version of the parser logic
  * to test the parsing algorithm without TypeScript dependencies.

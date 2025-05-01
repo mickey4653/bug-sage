@@ -30,6 +30,8 @@ jobs:
     
     - name: Run isolated tests
       run: npm run test:isolated
+      env:
+        NODE_OPTIONS: "--experimental-vm-modules"
     
     # Comment out or remove Jest and Cypress tests
     # - name: Run unit tests
