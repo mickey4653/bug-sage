@@ -14,6 +14,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'BugSage - Your AI Debugging Mentor',
   description: 'AI-powered debugging assistant that helps analyze logs and find root causes',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
 };
 
 export default function RootLayout({
@@ -25,7 +26,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${inter.className} min-h-screen bg-gray-50`}>
-          <main className="container mx-auto px-4 py-8">
+          <main className="w-full overflow-x-hidden">
             {children}
           </main>
         </body>
