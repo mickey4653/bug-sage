@@ -111,3 +111,8 @@ Our GitHub Actions workflow automatically runs linting and isolated tests on pus
 2. Generates sample log data
 3. Runs isolated component tests
 4. Deploys to Vercel on successful tests (main branch only)
+
+
+### Full Documentation below
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mickey4653/bug-sage)
